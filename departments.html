@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الأقسام – المعهد الصحي العالي واسط</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="rtl">
+<header id="site-header"></header>
+<div class="page-header">
+  <h1 id="ph_t"></h1><p id="ph_s"></p>
+  <div class="breadcrumb"><a href="index.html" id="bc_home"></a><span>/</span><span id="bc_cur"></span></div>
+</div>
+
+<!-- Dept tab nav -->
+<div style="background:#fff;border-bottom:1px solid var(--border);position:sticky;top:70px;z-index:100">
+  <div class="container" style="display:flex;gap:0;overflow-x:auto">
+    <a href="#nursing" id="tab_nur" style="padding:.9rem 1.5rem;font-weight:600;color:var(--gray-dark);border-bottom:3px solid transparent;white-space:nowrap;font-size:.92rem"></a>
+    <a href="#emergency" id="tab_emr" style="padding:.9rem 1.5rem;font-weight:600;color:var(--gray-dark);border-bottom:3px solid transparent;white-space:nowrap;font-size:.92rem"></a>
+    <a href="#midwifery" id="tab_mid" style="padding:.9rem 1.5rem;font-weight:600;color:var(--gray-dark);border-bottom:3px solid transparent;white-space:nowrap;font-size:.92rem"></a>
+  </div>
+</div>
+
+<!-- NURSING -->
+<section class="section" id="nursing">
+  <div class="container">
+    <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:2rem">
+      <div style="background:#e3f2fd;color:#1565c0;width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0"><i class="fas fa-heartbeat"></i></div>
+      <div><span class="dept-badge nursing" style="margin-bottom:.5rem" id="n_badge"></span><h2 style="border:none;padding:0" id="n_name"></h2></div>
+    </div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:3rem">
+      <div>
+        <h3 id="n_ov_t"></h3><p id="n_p1"></p><p id="n_p2"></p>
+        <h3 style="margin-top:2rem" id="n_obj_t"></h3>
+        <ul id="n_obj_list"></ul>
+        <h3 style="margin-top:2rem" id="n_cur_t"></h3>
+        <div class="card-grid" style="grid-template-columns:1fr 1fr">
+          <div class="card"><h4 id="n_yr12"></h4><ul style="font-size:.9rem" id="n_yr12_list"></ul></div>
+          <div class="card"><h4 id="n_yr34"></h4><ul style="font-size:.9rem" id="n_yr34_list"></ul></div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="background:var(--teal-pale);border:1px solid rgba(42,122,123,.2)">
+          <h4 style="color:var(--navy)" id="qf_t"></h4>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-graduation-cap"></i><strong id="n_deg_lbl"></strong>: <span id="n_deg_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-calendar"></i><strong id="n_dur_lbl"></strong>: <span id="n_dur_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-users"></i><strong id="n_enr_lbl"></strong>: <span id="n_enr_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-chalkboard-teacher"></i><strong id="n_fac_lbl"></strong>: <span id="n_fac_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-hospital"></i><strong id="n_site_lbl"></strong>: <span id="n_site_val"></span></div>
+          <div class="dept-detail"><i class="fas fa-language"></i><strong id="n_lang_lbl"></strong>: <span id="n_lang_val"></span></div>
+        </div>
+        <div class="card" style="margin-top:1.5rem">
+          <h4 id="n_hod_lbl"></h4>
+          <div class="name" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:.25rem">Dr. Ahmed Al-Saadi</div>
+          <p style="font-size:.85rem;color:var(--gray);margin:0">PhD in Nursing Sciences<br>Al-Mustansiriya University</p>
+          <p style="font-size:.85rem;color:var(--teal);margin-top:.5rem"><i class="fas fa-envelope" style="margin-left:.3rem"></i>nursing@hhi-wasit.edu.iq</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMERGENCY -->
+<section class="section section-alt" id="emergency">
+  <div class="container">
+    <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:2rem">
+      <div style="background:#fce4ec;color:#c62828;width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0"><i class="fas fa-ambulance"></i></div>
+      <div><span class="dept-badge emergency" style="margin-bottom:.5rem" id="e_badge"></span><h2 style="border:none;padding:0" id="e_name"></h2></div>
+    </div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:3rem">
+      <div>
+        <h3 id="e_ov_t"></h3><p id="e_p1"></p>
+        <h3 style="margin-top:2rem" id="e_comp_t"></h3>
+        <div class="card-grid" style="margin-top:1rem">
+          <div class="card"><div class="card-icon accent"><i class="fas fa-heartbeat"></i></div><h4 id="als_t"></h4><p style="font-size:.9rem;margin:0" id="als_d"></p></div>
+          <div class="card"><div class="card-icon accent"><i class="fas fa-procedures"></i></div><h4 id="tra_t"></h4><p style="font-size:.9rem;margin:0" id="tra_d"></p></div>
+          <div class="card"><div class="card-icon accent"><i class="fas fa-sort-amount-down"></i></div><h4 id="tri_t"></h4><p style="font-size:.9rem;margin:0" id="tri_d"></p></div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="background:#fff8f8;border:1px solid rgba(198,40,40,.15)">
+          <h4 style="color:var(--navy)" id="e_qf_t"></h4>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-graduation-cap"></i><strong id="e_deg_lbl"></strong>: <span id="e_deg_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-calendar"></i><strong id="e_dur_lbl"></strong>: <span id="e_dur_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-users"></i><strong id="e_enr_lbl"></strong>: <span id="e_enr_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-chalkboard-teacher"></i><strong id="e_fac_lbl"></strong>: <span id="e_fac_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-hospital"></i><strong id="e_site_lbl"></strong>: <span id="e_site_val"></span></div>
+          <div class="dept-detail"><i class="fas fa-tools"></i><strong id="e_labs_lbl"></strong>: <span id="e_labs_val"></span></div>
+        </div>
+        <div class="card" style="margin-top:1.5rem">
+          <h4 id="e_hod_lbl"></h4>
+          <div class="name" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:.25rem">Dr. Noor Ibrahim Al-Mansouri</div>
+          <p style="font-size:.85rem;color:var(--gray);margin:0">MD, Emergency Medicine Specialist</p>
+          <p style="font-size:.85rem;color:var(--teal);margin-top:.5rem"><i class="fas fa-envelope" style="margin-left:.3rem"></i>emergency@hhi-wasit.edu.iq</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MIDWIFERY -->
+<section class="section" id="midwifery">
+  <div class="container">
+    <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:2rem">
+      <div style="background:#f3e5f5;color:#6a1b9a;width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0"><i class="fas fa-baby"></i></div>
+      <div><span class="dept-badge midwifery" style="margin-bottom:.5rem" id="m_badge"></span><h2 style="border:none;padding:0" id="m_name"></h2></div>
+    </div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:3rem">
+      <div>
+        <h3 id="m_ov_t"></h3><p id="m_p1"></p>
+        <h3 style="margin-top:2rem" id="m_str_t"></h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1rem">
+          <div class="card"><h4 id="m_ante"></h4><ul style="font-size:.9rem" id="m_ante_l"></ul></div>
+          <div class="card"><h4 id="m_intra"></h4><ul style="font-size:.9rem" id="m_intra_l"></ul></div>
+          <div class="card"><h4 id="m_neo"></h4><ul style="font-size:.9rem" id="m_neo_l"></ul></div>
+          <div class="card"><h4 id="m_wom"></h4><ul style="font-size:.9rem" id="m_wom_l"></ul></div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="background:#faf4ff;border:1px solid rgba(106,27,154,.15)">
+          <h4 style="color:var(--navy)" id="m_qf_t"></h4>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-graduation-cap"></i><strong id="m_deg_lbl"></strong>: <span id="m_deg_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-calendar"></i><strong id="m_dur_lbl"></strong>: <span id="m_dur_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-users"></i><strong id="m_enr_lbl"></strong>: <span id="m_enr_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-chalkboard-teacher"></i><strong id="m_fac_lbl"></strong>: <span id="m_fac_val"></span></div>
+          <div class="dept-detail" style="margin-bottom:.8rem"><i class="fas fa-hospital"></i><strong id="m_site_lbl"></strong>: <span id="m_site_val"></span></div>
+          <div class="dept-detail"><i class="fas fa-certificate"></i><strong id="m_accr_lbl"></strong>: <span id="m_accr_val"></span></div>
+        </div>
+        <div class="card" style="margin-top:1.5rem">
+          <h4 id="m_hod_lbl"></h4>
+          <div class="name" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:.25rem">Dr. Layla Hassan Al-Khafaji</div>
+          <p style="font-size:.85rem;color:var(--gray);margin:0">PhD, Midwifery &amp; Women's Health</p>
+          <p style="font-size:.85rem;color:var(--teal);margin-top:.5rem"><i class="fas fa-envelope" style="margin-left:.3rem"></i>midwifery@hhi-wasit.edu.iq</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="site-footer"></footer>
+<script src="js/i18n.js"></script><script src="js/app.js"></script><script src="js/layout.js"></script>
+<script>
+initLang();
+function makeList(items){ return items.map(i=>`<li>${escHtml(i)}</li>`).join(''); }
+function renderPage(){
+  renderHeader('departments.html'); renderFooter();
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  const setH=(id,v)=>{const e=document.getElementById(id);if(e)e.innerHTML=v;};
+  set('ph_t',t('page_depts_title')); set('ph_s',t('page_depts_sub'));
+  set('bc_home',t('breadcrumb_home')); set('bc_cur',t('nav_departments'));
+  const DL=LANG==='ar'?{nursing:'التمريض',emergency:'الطوارئ',midwifery:'القبالة'}:{nursing:'Nursing',emergency:'Emergency Medicine',midwifery:'Midwifery'};
+  document.getElementById('tab_nur').innerHTML='<i class="fas fa-heartbeat" style="margin-left:.5rem;color:#1565c0"></i>'+DL.nursing;
+  document.getElementById('tab_emr').innerHTML='<i class="fas fa-ambulance" style="margin-left:.5rem;color:#c62828"></i>'+DL.emergency;
+  document.getElementById('tab_mid').innerHTML='<i class="fas fa-baby" style="margin-left:.5rem;color:#6a1b9a"></i>'+DL.midwifery;
+  // Nursing
+  set('n_badge',LANG==='ar'?'قسم':'Department'); set('n_name',t('dept_nursing_name'));
+  set('n_ov_t',LANG==='ar'?'نظرة عامة':'Overview'); set('n_p1',t('dept_nursing_overview')); set('n_p2',t('dept_nursing_p2'));
+  set('n_obj_t',t('dept_obj')); setH('n_obj_list',makeList(t('dept_nursing_obj')));
+  set('n_cur_t',t('dept_curriculum')); set('n_yr12',t('yr12')); set('n_yr34',t('yr34'));
+  setH('n_yr12_list',makeList(t('nursing_yr12'))); setH('n_yr34_list',makeList(t('nursing_yr34')));
+  set('qf_t',t('quick_facts')); set('n_deg_lbl',t('degree_lbl')); set('n_deg_val',t('nursing_degree'));
+  set('n_dur_lbl',t('duration_lbl')); set('n_dur_val',t('nursing_duration'));
+  set('n_enr_lbl',t('enrollment_lbl')); set('n_enr_val',t('nursing_enroll'));
+  set('n_fac_lbl',t('faculty_lbl')); set('n_fac_val',t('nursing_faculty'));
+  set('n_site_lbl',t('clinical_lbl')); set('n_site_val',t('nursing_sites'));
+  set('n_lang_lbl',t('lang_lbl')); set('n_lang_val',t('nursing_lang'));
+  set('n_hod_lbl',t('hod_lbl'));
+  // Emergency
+  set('e_badge',LANG==='ar'?'قسم':'Department'); set('e_name',t('dept_emergency_name'));
+  set('e_ov_t',LANG==='ar'?'نظرة عامة':'Overview'); set('e_p1',t('dept_emergency_overview'));
+  set('e_comp_t',t('core_competencies'));
+  set('als_t',t('als_title')); set('als_d',t('als_desc'));
+  set('tra_t',t('trauma_title')); set('tra_d',t('trauma_desc'));
+  set('tri_t',t('triage_title')); set('tri_d',t('triage_desc'));
+  set('e_qf_t',t('quick_facts')); set('e_deg_lbl',t('degree_lbl')); set('e_deg_val',t('emergency_degree'));
+  set('e_dur_lbl',t('duration_lbl')); set('e_dur_val',t('nursing_duration'));
+  set('e_enr_lbl',t('enrollment_lbl')); set('e_enr_val',t('emergency_enroll'));
+  set('e_fac_lbl',t('faculty_lbl')); set('e_fac_val',t('emergency_faculty'));
+  set('e_site_lbl',t('clinical_lbl')); set('e_site_val',t('emergency_sites'));
+  set('e_labs_lbl',t('labs_lbl')); set('e_labs_val',t('emergency_labs'));
+  set('e_hod_lbl',t('hod_lbl'));
+  // Midwifery
+  set('m_badge',LANG==='ar'?'قسم':'Department'); set('m_name',t('dept_midwifery_name'));
+  set('m_ov_t',LANG==='ar'?'نظرة عامة':'Overview'); set('m_p1',t('dept_midwifery_overview'));
+  set('m_str_t',t('prog_structure'));
+  set('m_ante',t('antepartum')); setH('m_ante_l',makeList(t('antepartum_items')));
+  set('m_intra',t('intrapartum')); setH('m_intra_l',makeList(t('intrapartum_items')));
+  set('m_neo',t('neonatal')); setH('m_neo_l',makeList(t('neonatal_items')));
+  set('m_wom',t('womens_health')); setH('m_wom_l',makeList(t('womens_items')));
+  set('m_qf_t',t('quick_facts')); set('m_deg_lbl',t('degree_lbl')); set('m_deg_val',t('midwifery_degree'));
+  set('m_dur_lbl',t('duration_lbl')); set('m_dur_val',t('nursing_duration'));
+  set('m_enr_lbl',t('enrollment_lbl')); set('m_enr_val',t('midwifery_enroll'));
+  set('m_fac_lbl',t('faculty_lbl')); set('m_fac_val',t('midwifery_faculty'));
+  set('m_site_lbl',t('clinical_lbl')); set('m_site_val',t('midwifery_sites'));
+  set('m_accr_lbl',t('accred_lbl')); set('m_accr_val',t('midwifery_accred'));
+  set('m_hod_lbl',t('hod_lbl'));
+  document.body.classList.toggle('rtl',LANG==='ar');
+  document.documentElement.dir=LANG==='ar'?'rtl':'ltr';
+  document.documentElement.lang=LANG;
+  document.title=LANG==='ar'?'الأقسام – المعهد الصحي العالي واسط':'Departments – HHI Wasit';
+}
+renderPage();
+</script>
+</body>
+</html>

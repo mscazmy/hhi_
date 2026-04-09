@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة الإدارة – المعهد الصحي العالي واسط</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="rtl">
+<header id="site-header"></header>
+
+<!-- LOGIN -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-box">
+    <div class="logo-icon" style="margin:0 auto 1.5rem;width:64px;height:64px;font-size:1.5rem"><i class="fas fa-lock"></i></div>
+    <h2 id="l_title"></h2><p id="l_sub"></p>
+    <div id="loginError" class="alert alert-warn" style="display:none;text-align:right"><i class="fas fa-exclamation-triangle" style="margin-left:.4rem"></i><span id="l_err"></span></div>
+    <div class="form-group" style="text-align:right"><label id="l_user_lbl"></label><input type="text" id="loginUser" class="form-control" placeholder="admin"></div>
+    <div class="form-group" style="text-align:right"><label id="l_pass_lbl"></label><input type="password" id="loginPass" class="form-control" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button onclick="doLogin()" class="btn btn-primary" style="width:100%" id="l_btn"></button>
+    <p style="margin-top:1rem;font-size:.8rem;color:var(--gray)" id="l_demo"></p>
+    <p style="margin-top:.3rem"><a href="index.html" style="font-size:.8rem;color:var(--gray)" id="l_back"></a></p>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div class="admin-wrapper" id="adminApp" style="display:none">
+  <aside class="admin-sidebar">
+    <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.1)">
+      <div class="logo-icon" style="width:36px;height:36px;font-size:.85rem">HHI</div>
+      <div style="color:#fff;font-size:.85rem;font-weight:600;line-height:1.3" id="sb_title"></div>
+    </div>
+    <h3 id="sb_content"></h3>
+    <ul>
+      <li><a href="#" class="active" id="nav-theses" onclick="showSection('theses');return false"><i class="fas fa-file-alt"></i><span id="sb_theses"></span></a></li>
+      <li><a href="#" id="nav-news" onclick="showSection('news');return false"><i class="fas fa-newspaper"></i><span id="sb_news"></span></a></li>
+    </ul>
+    <h3 id="sb_system"></h3>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i><span id="sb_viewsite"></span></a></li>
+      <li><a href="#" onclick="doLogout();return false"><i class="fas fa-sign-out-alt"></i><span id="sb_logout"></span></a></li>
+    </ul>
+  </aside>
+
+  <main class="admin-main">
+    <!-- THESES SECTION -->
+    <div id="section-theses">
+      <h2 id="mg_t_title"></h2><p class="sub" id="mg_t_sub"></p>
+      <div class="card-white">
+        <h3 style="font-size:1.15rem;color:var(--navy);margin-bottom:1.5rem"><i class="fas fa-upload" style="margin-left:.5rem;color:var(--teal)"></i><span id="up_title"></span></h3>
+        <div id="uploadSuccess" class="alert alert-success" style="display:none"><i class="fas fa-check-circle" style="margin-left:.4rem"></i><span id="up_ok"></span></div>
+        <div class="form-row">
+          <div class="form-group"><label id="t_title_lbl"></label><input type="text" id="t_title" class="form-control" id2="t_title_ph"></div>
+          <div class="form-group"><label id="t_author_lbl"></label><input type="text" id="t_author" class="form-control"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label id="t_dept_lbl"></label>
+            <select id="t_dept" class="form-control">
+              <option value="" id="t_dept_ph"></option>
+              <option value="nursing" id="t_dept_nur"></option>
+              <option value="emergency" id="t_dept_emr"></option>
+              <option value="midwifery" id="t_dept_mid"></option>
+            </select>
+          </div>
+          <div class="form-group"><label id="t_year_lbl"></label><input type="number" id="t_year" class="form-control" value="2025" min="2000" max="2099"></div>
+        </div>
+        <div class="form-group"><label id="t_sup_lbl"></label><input type="text" id="t_supervisor" class="form-control"></div>
+        <div class="form-group"><label id="t_abs_lbl"></label><textarea id="t_abstract" class="form-control" rows="4"></textarea></div>
+        <div class="form-group">
+          <label id="t_pdf_lbl"></label>
+          <div class="file-drop" id="fileDrop" onclick="document.getElementById('t_file').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p id="drop_hint"></p>
+            <p style="font-size:.8rem;color:var(--teal);margin-top:.3rem" id="drop_sub"></p>
+            <input type="file" id="t_file" accept=".pdf" onchange="handleFile(this)">
+            <div class="file-name" id="fileName"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem">
+          <button class="btn btn-primary" onclick="submitThesis()" id="save_t_btn"></button>
+          <button class="btn btn-secondary" onclick="resetThesisForm()" id="reset_btn"></button>
+        </div>
+      </div>
+      <div class="card-white">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h3 style="font-size:1.15rem;color:var(--navy);margin:0"><i class="fas fa-list" style="margin-left:.5rem;color:var(--teal)"></i><span id="all_t_lbl"></span></h3>
+          <input type="text" id="thesisSearch" class="form-control" style="max-width:240px" oninput="renderThesesTable()">
+        </div>
+        <div style="overflow-x:auto">
+          <table class="admin-table">
+            <thead><tr>
+              <th id="col_title"></th><th id="col_author"></th><th id="col_dept"></th>
+              <th id="col_year"></th><th id="col_file"></th><th id="col_actions"></th>
+            </tr></thead>
+            <tbody id="thesesTbody"></tbody>
+          </table>
+        </div>
+        <div id="thesesTableEmpty" style="display:none;text-align:center;padding:2rem;color:var(--gray)" id="no_t_tbl"></div>
+      </div>
+    </div>
+
+    <!-- NEWS SECTION -->
+    <div id="section-news" style="display:none">
+      <h2 id="mg_n_title"></h2><p class="sub" id="mg_n_sub"></p>
+      <div class="card-white">
+        <h3 style="font-size:1.15rem;color:var(--navy);margin-bottom:1.5rem"><i class="fas fa-plus-circle" style="margin-left:.5rem;color:var(--teal)"></i><span id="add_n_lbl"></span></h3>
+        <div id="newsSuccess" class="alert alert-success" style="display:none"><i class="fas fa-check-circle" style="margin-left:.4rem"></i><span id="n_ok"></span></div>
+        <div class="form-group"><label id="n_hl_lbl"></label><input type="text" id="n_title" class="form-control"></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label id="n_cat_lbl"></label>
+            <select id="n_category" class="form-control">
+              <option value="" id="n_cat_ph"></option>
+              <option value="Academic" id="n_cat_ac"></option>
+              <option value="Events" id="n_cat_ev"></option>
+              <option value="Facilities" id="n_cat_fac"></option>
+              <option value="Partnerships" id="n_cat_par"></option>
+              <option value="Training" id="n_cat_tr"></option>
+              <option value="General" id="n_cat_gen"></option>
+            </select>
+          </div>
+          <div class="form-group"><label id="n_date_lbl"></label><input type="date" id="n_date" class="form-control"></div>
+        </div>
+        <div class="form-group"><label id="n_src_lbl"></label><input type="text" id="n_author" class="form-control"></div>
+        <div class="form-group"><label id="n_body_lbl"></label><textarea id="n_body" class="form-control" rows="5"></textarea></div>
+        <div class="form-group">
+          <label id="n_img_lbl"></label>
+          <div class="file-drop" id="imgDrop" onclick="document.getElementById('n_image').click()" style="padding:1.2rem">
+            <i class="fas fa-image" style="font-size:1.6rem;color:var(--teal);margin-bottom:.5rem;display:block"></i>
+            <p id="img_drop_hint" style="margin:0;font-size:.9rem;color:var(--gray)"></p>
+            <p style="font-size:.78rem;color:var(--teal);margin-top:.3rem" id="img_drop_sub"></p>
+            <input type="file" id="n_image" accept="image/*" onchange="handleImageFile(this)" style="display:none">
+          </div>
+          <div id="imgPreviewWrap" style="display:none;margin-top:.8rem;position:relative;display:none">
+            <img id="imgPreview" style="max-height:180px;border-radius:var(--radius);border:1px solid var(--border);display:block">
+            <button onclick="clearImage()" style="position:absolute;top:.4rem;left:.4rem;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:.85rem"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem">
+          <button class="btn btn-primary" onclick="submitNews()" id="pub_btn"></button>
+          <button class="btn btn-secondary" onclick="resetNewsForm()" id="reset_n_btn"></button>
+        </div>
+      </div>
+      <div class="card-white">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h3 style="font-size:1.15rem;color:var(--navy);margin:0"><i class="fas fa-list" style="margin-left:.5rem;color:var(--teal)"></i><span id="all_n_lbl"></span></h3>
+          <input type="text" id="newsSearch" class="form-control" style="max-width:240px" oninput="renderNewsTable()">
+        </div>
+        <div style="overflow-x:auto">
+          <table class="admin-table">
+            <thead><tr>
+              <th id="col_n_title"></th><th id="col_n_img"></th><th id="col_n_cat"></th><th id="col_n_date"></th><th id="col_n_author"></th><th id="col_n_actions"></th>
+            </tr></thead>
+            <tbody id="newsTbody"></tbody>
+          </table>
+        </div>
+        <div id="newsTableEmpty" style="display:none;text-align:center;padding:2rem;color:var(--gray)"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer id="site-footer" style="display:none"></footer>
+<script src="js/i18n.js"></script><script src="js/app.js"></script><script src="js/layout.js"></script>
+<script>
+initLang();
+function getDL(){ return LANG==='ar'?{nursing:'التمريض',emergency:'الطوارئ',midwifery:'القبالة'}:{nursing:'Nursing',emergency:'Emergency Medicine',midwifery:'Midwifery'}; }
+const catLabels = {ar:{Academic:'الأكاديمية',Events:'الفعاليات',Facilities:'المرافق',Partnerships:'الشراكات',Training:'التدريب',General:'عام'},en:{Academic:'Academic',Events:'Events',Facilities:'Facilities',Partnerships:'Partnerships',Training:'Training',General:'General'}};
+
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  if(HHI.login(u,p)){
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('adminApp').style.display='grid';
+    renderThesesTable();
+  } else {
+    document.getElementById('loginError').style.display='block';
+  }
+}
+function doLogout(){HHI.logout();location.reload();}
+if(HHI.isLoggedIn()){
+  document.getElementById('loginOverlay').style.display='none';
+  document.getElementById('adminApp').style.display='grid';
+}
+
+function showSection(name){
+  ['theses','news'].forEach(s=>{
+    document.getElementById('section-'+s).style.display=s===name?'block':'none';
+    document.getElementById('nav-'+s).classList.toggle('active',s===name);
+  });
+  if(name==='theses') renderThesesTable();
+  if(name==='news'){renderNewsTable();document.getElementById('n_date').valueAsDate=new Date();}
+}
+
+// ===== THESIS FILE HANDLING =====
+function handleFile(input){
+  const f=input.files[0];
+  if(f) document.getElementById('fileName').textContent=f.name+' ('+(f.size/1024/1024).toFixed(2)+' MB)';
+}
+const drop=document.getElementById('fileDrop');
+drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag');});
+drop.addEventListener('dragleave',()=>drop.classList.remove('drag'));
+drop.addEventListener('drop',e=>{
+  e.preventDefault();drop.classList.remove('drag');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.type==='application/pdf'){
+    // Assign to file input via DataTransfer
+    const dt=new DataTransfer(); dt.items.add(f);
+    document.getElementById('t_file').files=dt.files;
+    document.getElementById('fileName').textContent=f.name+' ('+(f.size/1024/1024).toFixed(2)+' MB)';
+  }
+});
+
+async function submitThesis(){
+  const title=document.getElementById('t_title').value.trim();
+  const author=document.getElementById('t_author').value.trim();
+  const dept=document.getElementById('t_dept').value;
+  const year=parseInt(document.getElementById('t_year').value);
+  const fileInput=document.getElementById('t_file');
+  if(!title||!author||!dept||!year){alert(t('fill_required'));return;}
+  if(!fileInput.files.length){alert(t('select_pdf'));return;}
+  const file=fileInput.files[0];
+  const btn=document.getElementById('save_t_btn');
+  btn.disabled=true; btn.textContent=LANG==='ar'?'جارٍ الحفظ...':'Saving…';
+  try {
+    const dataUrl = await readFileAsDataUrl(file);
+    const theses=HHI.getTheses();
+    const id=nextId(theses);
+    const saved=HHI.saveThesisFile(id, dataUrl);
+    theses.unshift({id,title,author,department:dept,year,
+      supervisor:document.getElementById('t_supervisor').value.trim()||'Unknown',
+      abstract:document.getElementById('t_abstract').value.trim()||'Abstract not provided.',
+      filename:file.name,filesize:(file.size/1024/1024).toFixed(2)+' MB',
+      uploaded:new Date().toISOString().split('T')[0],
+      hasFile:saved
+    });
+    HHI.saveTheses(theses);
+    document.getElementById('uploadSuccess').style.display='block';
+    setTimeout(()=>document.getElementById('uploadSuccess').style.display='none',3500);
+    resetThesisForm(); renderThesesTable();
+  } catch(err) {
+    alert(LANG==='ar'?'فشل حفظ الملف. قد يكون حجمه كبيرًا جدًا.':'Failed to save file. It may be too large for browser storage.');
+  }
+  btn.disabled=false; renderPage();
+}
+function resetThesisForm(){
+  ['t_title','t_author','t_supervisor','t_abstract'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('t_dept').value=''; document.getElementById('t_year').value='2025';
+  document.getElementById('t_file').value=''; document.getElementById('fileName').textContent='';
+}
+function deleteThesis(id){
+  if(!confirm(t('confirm_del_thesis'))) return;
+  HHI.deleteThesisFile(id);
+  HHI.saveTheses(HHI.getTheses().filter(tt=>tt.id!==id));
+  renderThesesTable();
+}
+function renderThesesTable(){
+  const DL=getDL();
+  const q=(document.getElementById('thesisSearch')||{}).value?.toLowerCase()||'';
+  let list=HHI.getTheses();
+  if(q) list=list.filter(tt=>tt.title.toLowerCase().includes(q)||tt.author.toLowerCase().includes(q));
+  const tbody=document.getElementById('thesesTbody'), empty=document.getElementById('thesesTableEmpty');
+  if(!list.length){tbody.innerHTML='';empty.style.display='block';empty.textContent=t('no_theses_tbl');return;}
+  empty.style.display='none';
+  tbody.innerHTML=list.map(tt=>`
+    <tr>
+      <td style="max-width:240px"><strong style="font-size:.9rem">${escHtml(tt.title)}</strong></td>
+      <td style="font-size:.9rem">${escHtml(tt.author)}</td>
+      <td><span class="tag-pill thesis-tag ${tt.department}">${DL[tt.department]||tt.department}</span></td>
+      <td style="font-size:.9rem">${tt.year}</td>
+      <td style="font-size:.8rem;color:var(--gray)">${escHtml(tt.filename)}</td>
+      <td style="text-align:center">
+        ${tt.hasFile
+          ? `<span style="color:#2e7d32;font-size:.8rem"><i class="fas fa-check-circle"></i></span>`
+          : `<span style="color:#9ca3af;font-size:.8rem"><i class="fas fa-times-circle"></i></span>`}
+      </td>
+      <td><button onclick="deleteThesis(${tt.id})" class="btn btn-sm" style="background:#fce4ec;color:#c62828;border:none"><i class="fas fa-trash-alt"></i></button></td>
+    </tr>`).join('');
+}
+
+// ===== NEWS IMAGE HANDLING =====
+let _newsImageDataUrl = null;
+
+function handleImageFile(input){
+  const f=input.files[0]; if(!f) return;
+  if(f.size > 3*1024*1024){ alert(LANG==='ar'?'حجم الصورة يتجاوز 3 ميغابايت. اختر صورة أصغر.':'Image exceeds 3 MB. Please choose a smaller image.'); return; }
+  const reader=new FileReader();
+  reader.onload=e=>{
+    _newsImageDataUrl=e.target.result;
+    const wrap=document.getElementById('imgPreviewWrap');
+    document.getElementById('imgPreview').src=_newsImageDataUrl;
+    wrap.style.display='block';
+  };
+  reader.readAsDataURL(f);
+}
+
+const imgDrop=document.getElementById('imgDrop');
+imgDrop.addEventListener('dragover',e=>{e.preventDefault();imgDrop.classList.add('drag');});
+imgDrop.addEventListener('dragleave',()=>imgDrop.classList.remove('drag'));
+imgDrop.addEventListener('drop',e=>{
+  e.preventDefault();imgDrop.classList.remove('drag');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.type.startsWith('image/')){
+    const dt=new DataTransfer(); dt.items.add(f);
+    document.getElementById('n_image').files=dt.files;
+    handleImageFile(document.getElementById('n_image'));
+  }
+});
+
+function clearImage(){
+  _newsImageDataUrl=null;
+  document.getElementById('n_image').value='';
+  document.getElementById('imgPreviewWrap').style.display='none';
+  document.getElementById('imgPreview').src='';
+}
+
+function submitNews(){
+  const title=document.getElementById('n_title').value.trim();
+  const category=document.getElementById('n_category').value;
+  const date=document.getElementById('n_date').value;
+  const body=document.getElementById('n_body').value.trim();
+  if(!title||!category||!date||!body){alert(t('fill_required'));return;}
+  const news=HHI.getNews();
+  news.unshift({
+    id:nextId(news), title, category, date, body,
+    author:document.getElementById('n_author').value.trim()||'Admin',
+    image: _newsImageDataUrl || null
+  });
+  HHI.saveNews(news);
+  document.getElementById('newsSuccess').style.display='block';
+  setTimeout(()=>document.getElementById('newsSuccess').style.display='none',3000);
+  resetNewsForm(); renderNewsTable();
+}
+function resetNewsForm(){
+  ['n_title','n_author','n_body'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('n_category').value='';
+  document.getElementById('n_date').valueAsDate=new Date();
+  clearImage();
+}
+function deleteNews(id){
+  if(!confirm(t('confirm_del_news'))) return;
+  HHI.saveNews(HHI.getNews().filter(n=>n.id!==id)); renderNewsTable();
+}
+function renderNewsTable(){
+  let list=HHI.getNews().sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const q=(document.getElementById('newsSearch')||{}).value?.toLowerCase()||'';
+  if(q) list=list.filter(n=>n.title.toLowerCase().includes(q));
+  const tbody=document.getElementById('newsTbody'), empty=document.getElementById('newsTableEmpty');
+  if(!list.length){tbody.innerHTML='';empty.style.display='block';empty.textContent=t('no_news_tbl');return;}
+  empty.style.display='none';
+  tbody.innerHTML=list.map(n=>`
+    <tr>
+      <td style="max-width:260px;font-size:.9rem"><strong>${escHtml(n.title)}</strong></td>
+      <td style="text-align:center">
+        ${n.image
+          ? `<img src="${n.image}" style="width:48px;height:36px;object-fit:cover;border-radius:4px;border:1px solid var(--border)">`
+          : `<span style="color:#9ca3af;font-size:.75rem">—</span>`}
+      </td>
+      <td><span class="tag-pill" style="background:var(--teal-pale);color:var(--teal)">${escHtml(catLabels[LANG][n.category]||n.category)}</span></td>
+      <td style="font-size:.85rem;white-space:nowrap">${formatDate(n.date)}</td>
+      <td style="font-size:.85rem">${escHtml(n.author||'Admin')}</td>
+      <td><button onclick="deleteNews(${n.id})" class="btn btn-sm" style="background:#fce4ec;color:#c62828;border:none"><i class="fas fa-trash-alt"></i></button></td>
+    </tr>`).join('');
+}
+
+function renderPage(){
+  renderHeader('admin.html');
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  const DL=getDL();
+  set('l_title',t('admin_title')); set('l_sub',t('admin_subtitle'));
+  set('l_err',t('login_error')); set('l_user_lbl',t('login_username')); set('l_pass_lbl',t('login_password'));
+  set('l_btn',t('login_btn')); set('l_demo',t('login_demo')); set('l_back',t('back_to_site'));
+  document.getElementById('l_back').href='index.html';
+  set('sb_title',LANG==='ar'?'بوابة الإدارة\nالمعهد الصحي العالي / واسط':'Admin Portal\nHHI Wasit');
+  set('sb_content',t('content_lbl')); set('sb_system',t('system_lbl'));
+  set('sb_theses',t('nav_theses')); set('sb_news',t('nav_news'));
+  set('sb_viewsite',t('view_site')); set('sb_logout',t('logout'));
+  set('mg_t_title',t('manage_theses')); set('mg_t_sub',t('manage_theses_sub'));
+  set('up_title',t('upload_thesis')); set('up_ok',t('upload_success'));
+  set('t_title_lbl',t('thesis_title_lbl')); document.getElementById('t_title').placeholder=t('thesis_title_ph');
+  set('t_author_lbl',t('author_req')); document.getElementById('t_author').placeholder=t('author_ph');
+  set('t_dept_lbl',t('dept_req')); set('t_dept_ph',t('select_dept'));
+  set('t_dept_nur',DL.nursing); set('t_dept_emr',DL.emergency); set('t_dept_mid',DL.midwifery);
+  set('t_year_lbl',t('year_req')); set('t_sup_lbl',t('supervisor_req'));
+  document.getElementById('t_supervisor').placeholder=t('supervisor_ph');
+  set('t_abs_lbl',t('abstract_req')); document.getElementById('t_abstract').placeholder=t('abstract_ph');
+  set('t_pdf_lbl',t('pdf_file_lbl')); set('drop_hint',t('drop_hint')); set('drop_sub',t('drop_sub'));
+  set('save_t_btn',t('save_thesis')); set('reset_btn',t('reset_btn'));
+  set('all_t_lbl',t('all_theses_tbl'));
+  document.getElementById('thesisSearch').placeholder=t('search_ph');
+  set('col_title',t('title_col')); set('col_author',t('author_col')); set('col_dept',t('dept_col'));
+  set('col_year',t('year_col')); set('col_file',t('file_col')); set('col_actions',t('actions_col'));
+  set('mg_n_title',t('manage_news')); set('mg_n_sub',t('manage_news_sub'));
+  set('add_n_lbl',t('add_news')); set('n_ok',t('news_success'));
+  set('n_hl_lbl',t('headline_lbl')); document.getElementById('n_title').placeholder=t('headline_ph');
+  set('n_cat_lbl',t('category_lbl')); set('n_cat_ph',t('select_cat'));
+  set('n_cat_ac',catLabels[LANG].Academic); set('n_cat_ev',catLabels[LANG].Events);
+  set('n_cat_fac',catLabels[LANG].Facilities); set('n_cat_par',catLabels[LANG].Partnerships);
+  set('n_cat_tr',catLabels[LANG].Training); set('n_cat_gen',catLabels[LANG].General);
+  set('n_date_lbl',t('date_lbl')); set('n_src_lbl',t('source_lbl'));
+  document.getElementById('n_author').placeholder=t('source_ph');
+  set('n_body_lbl',t('body_lbl')); document.getElementById('n_body').placeholder=t('body_ph');
+  set('pub_btn',t('publish_btn')); set('reset_n_btn',t('reset_btn'));
+  set('all_n_lbl',t('all_news_tbl')); document.getElementById('newsSearch').placeholder=t('search_ph');
+  set('col_n_title',t('title_news_col')); set('col_n_img',LANG==='ar'?'صورة':'Image');
+  set('col_n_cat',t('cat_col')); set('col_n_date',t('date_col'));
+  set('col_n_author',t('author_news_col')); set('col_n_actions',t('actions_col'));
+  set('n_img_lbl',LANG==='ar'?'صورة الخبر (اختياري)':'News Image (optional)');
+  set('img_drop_hint',LANG==='ar'?'انقر لاختيار صورة أو اسحب وأفلت هنا':'Click to choose an image or drag & drop here');
+  set('img_drop_sub',LANG==='ar'?'JPG، PNG، WebP – الحجم الأقصى 3 ميغابايت':'JPG, PNG, WebP – Max 3 MB');
+  // File status column header in theses table
+  const colFile2=document.getElementById('col_file');
+  if(colFile2){
+    const th=document.createElement('th');
+    th.textContent=LANG==='ar'?'متاح':'Available';
+    colFile2.after(th);
+  }
+  document.body.classList.toggle('rtl',LANG==='ar');
+  document.documentElement.dir=LANG==='ar'?'rtl':'ltr';
+  document.documentElement.lang=LANG;
+  document.title=LANG==='ar'?'بوابة الإدارة – المعهد الصحي العالي واسط':'Admin Portal – HHI Wasit';
+  if(HHI.isLoggedIn()) renderThesesTable();
+}
+document.getElementById('n_date').valueAsDate=new Date();
+renderPage();
+</script>
+</body>
+</html>

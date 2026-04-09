@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رسائل التخرج – المعهد الصحي العالي واسط</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="rtl">
+<header id="site-header"></header>
+<div class="page-header">
+  <h1 id="ph_t"></h1><p id="ph_s"></p>
+  <div class="breadcrumb"><a href="index.html" id="bc_home"></a><span>/</span><span id="bc_cur"></span></div>
+</div>
+<section class="section">
+  <div class="container">
+    <div class="alert alert-info" id="notice_txt"></div>
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="">
+      <select id="deptFilter">
+        <option value="" id="opt_alld"></option>
+        <option value="nursing" id="opt_nur"></option>
+        <option value="emergency" id="opt_emr"></option>
+        <option value="midwifery" id="opt_mid"></option>
+      </select>
+      <select id="yearFilter">
+        <option value="" id="opt_allyr"></option>
+        <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+      </select>
+      <select id="sortBy">
+        <option value="year-desc" id="opt_new"></option>
+        <option value="year-asc" id="opt_old"></option>
+        <option value="alpha" id="opt_az"></option>
+      </select>
+    </div>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2rem">
+      <div style="text-align:center;padding:1rem 1.5rem;background:var(--teal-pale);border-radius:var(--radius);min-width:110px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--navy)" id="totalCount">0</div>
+        <div style="font-size:.8rem;color:var(--gray);text-transform:uppercase" id="total_lbl"></div>
+      </div>
+      <div style="text-align:center;padding:1rem 1.5rem;background:#e3f2fd;border-radius:var(--radius);min-width:110px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:#1565c0" id="nursingCount">0</div>
+        <div style="font-size:.8rem;color:#1565c0" id="nur_lbl"></div>
+      </div>
+      <div style="text-align:center;padding:1rem 1.5rem;background:#fce4ec;border-radius:var(--radius);min-width:110px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:#c62828" id="emergencyCount">0</div>
+        <div style="font-size:.8rem;color:#c62828" id="emr_lbl"></div>
+      </div>
+      <div style="text-align:center;padding:1rem 1.5rem;background:#f3e5f5;border-radius:var(--radius);min-width:110px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:#6a1b9a" id="midwiferyCount">0</div>
+        <div style="font-size:.8rem;color:#6a1b9a" id="mid_lbl"></div>
+      </div>
+    </div>
+    <div id="thesesCount" style="color:var(--gray);font-size:.9rem;margin-bottom:1rem"></div>
+    <div id="thesesList"></div>
+    <div id="noResults" style="display:none;text-align:center;padding:3rem;color:var(--gray)">
+      <i class="fas fa-search" style="font-size:2rem;margin-bottom:1rem;display:block;opacity:.4"></i>
+      <span id="no_res_txt"></span>
+    </div>
+  </div>
+</section>
+
+<div id="thesisModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:#fff;border-radius:8px;max-width:660px;width:100%;max-height:90vh;overflow-y:auto;padding:2.5rem;position:relative">
+    <button onclick="closeModal()" style="position:absolute;top:1rem;left:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--gray)"><i class="fas fa-times"></i></button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<footer id="site-footer"></footer>
+<script src="js/i18n.js"></script><script src="js/app.js"></script><script src="js/layout.js"></script>
+<script>
+initLang();
+const allTheses = HHI.getTheses();
+
+function getDL(){ return LANG==='ar'?{nursing:'التمريض',emergency:'الطوارئ',midwifery:'القبالة'}:{nursing:'Nursing',emergency:'Emergency Medicine',midwifery:'Midwifery'}; }
+
+function render(){
+  const DL=getDL();
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const dept=document.getElementById('deptFilter').value;
+  const yr=document.getElementById('yearFilter').value;
+  const sort=document.getElementById('sortBy').value;
+  let list=allTheses.filter(tt=>{
+    const mq=!q||tt.title.toLowerCase().includes(q)||tt.author.toLowerCase().includes(q)||(tt.supervisor||'').toLowerCase().includes(q);
+    const md=!dept||tt.department===dept;
+    const my=!yr||tt.year==yr;
+    return mq&&md&&my;
+  });
+  if(sort==='year-desc') list.sort((a,b)=>b.year-a.year);
+  else if(sort==='year-asc') list.sort((a,b)=>a.year-b.year);
+  else list.sort((a,b)=>a.title.localeCompare(b.title));
+  document.getElementById('thesesCount').textContent=t('showing_theses')+' '+list.length+' '+t('thesis_plural');
+  const container=document.getElementById('thesesList'), none=document.getElementById('noResults');
+  if(!list.length){container.innerHTML='';none.style.display='block';return;}
+  none.style.display='none';
+  container.innerHTML=list.map(tt=>`
+    <div class="thesis-item">
+      <div class="thesis-meta">
+        <span class="thesis-tag ${tt.department}">${DL[tt.department]}</span>
+        <span class="thesis-year">${tt.year}</span>
+        <span style="font-size:.78rem;color:var(--gray);margin-right:auto"><i class="fas fa-calendar" style="margin-left:.3rem"></i>${t('uploaded_lbl')} ${formatDate(tt.uploaded)}</span>
+      </div>
+      <h4>${escHtml(tt.title)}</h4>
+      <div class="thesis-author" style="margin-bottom:.4rem">
+        <i class="fas fa-user" style="margin-left:.4rem;color:var(--teal)"></i><strong>${escHtml(tt.author)}</strong>
+        | ${t('supervisor_lbl')}: ${escHtml(tt.supervisor)}
+      </div>
+      <p style="font-size:.88rem;color:var(--gray);margin:.5rem 0 0;line-height:1.7">${escHtml(tt.abstract.substring(0,180))}…</p>
+      <div style="display:flex;gap:1rem;margin-top:.9rem;flex-wrap:wrap">
+        <a href="#" class="thesis-download" onclick="openThesis(${tt.id});return false"><i class="fas fa-eye"></i> ${t('view_details')}</a>
+        ${tt.hasFile
+          ? `<a href="#" class="thesis-download" onclick="doDownload(${tt.id},'${escHtml(tt.filename)}');return false" style="color:var(--accent)"><i class="fas fa-download"></i> ${t('download_pdf')} (${escHtml(tt.filesize)})</a>`
+          : `<span class="thesis-download" style="color:#9ca3af;cursor:default"><i class="fas fa-lock"></i> ${LANG==='ar'?'الملف غير متاح للتحميل':'File not available'}</span>`
+        }
+      </div>
+    </div>`).join('');
+}
+
+function openThesis(id){
+  const DL=getDL();
+  const tt=allTheses.find(x=>x.id===id); if(!tt) return;
+  document.getElementById('modalContent').innerHTML=`
+    <div style="display:flex;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap">
+      <span class="thesis-tag ${tt.department}">${DL[tt.department]}</span>
+      <span class="thesis-year">${tt.year}</span>
+    </div>
+    <h2 style="border:none;font-size:1.5rem;margin-bottom:1.2rem;line-height:1.3">${escHtml(tt.title)}</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;background:var(--gray-light);padding:1.2rem;border-radius:var(--radius);margin-bottom:1.5rem;font-size:.9rem">
+      <div><strong>${t('author_lbl')}:</strong> ${escHtml(tt.author)}</div>
+      <div><strong>${t('year_lbl')}:</strong> ${tt.year}</div>
+      <div><strong>${t('supervisor_lbl')}:</strong> ${escHtml(tt.supervisor)}</div>
+      <div><strong>${t('dept_lbl')}:</strong> ${DL[tt.department]}</div>
+      <div><strong>${t('file_lbl')}:</strong> ${escHtml(tt.filename)}</div>
+      <div><strong>${t('size_lbl')}:</strong> ${escHtml(tt.filesize)}</div>
+    </div>
+    <h4>${t('abstract_lbl')}</h4>
+    <p style="color:var(--gray-dark);line-height:1.8">${escHtml(tt.abstract)}</p>
+    <div style="margin-top:1.5rem">
+      ${tt.hasFile
+        ? `<a href="#" onclick="doDownload(${tt.id},'${escHtml(tt.filename)}');return false" class="btn btn-primary"><i class="fas fa-download" style="margin-left:.5rem"></i>${t('download_pdf')}</a>`
+        : `<span class="btn btn-primary" style="opacity:.5;cursor:not-allowed"><i class="fas fa-lock" style="margin-left:.5rem"></i>${LANG==='ar'?'الملف غير متاح':'File not available'}</span>`
+      }
+    </div>`;
+  document.getElementById('thesisModal').style.display='flex';
+}
+function closeModal(){document.getElementById('thesisModal').style.display='none';}
+function doDownload(id, filename){
+  const data = HHI.getThesisFile(id);
+  if(!data){ alert(LANG==='ar'?'الملف غير موجود في التخزين.':'File not found in storage.'); return; }
+  downloadDataUrl(data, filename);
+}
+document.getElementById('thesisModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+['searchInput','deptFilter','yearFilter','sortBy'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener('change',render);
+  if(id==='searchInput') el.addEventListener('input',render);
+});
+
+function renderPage(){
+  const DL=getDL();
+  renderHeader('theses.html'); renderFooter();
+  document.getElementById('ph_t').textContent=t('page_theses_title');
+  document.getElementById('ph_s').textContent=t('page_theses_sub');
+  document.getElementById('bc_home').textContent=t('breadcrumb_home');
+  document.getElementById('bc_cur').textContent=t('nav_theses');
+  document.getElementById('notice_txt').innerHTML=t('theses_notice')+' <a href="admin.html"><strong>'+t('admin_portal_lnk')+'</strong></a>.';
+  document.getElementById('searchInput').placeholder=t('search_theses');
+  document.getElementById('opt_alld').textContent=t('all_depts');
+  document.getElementById('opt_nur').textContent=DL.nursing;
+  document.getElementById('opt_emr').textContent=DL.emergency;
+  document.getElementById('opt_mid').textContent=DL.midwifery;
+  document.getElementById('opt_allyr').textContent=t('all_years');
+  document.getElementById('opt_new').textContent=t('newest_first');
+  document.getElementById('opt_old').textContent=t('oldest_first');
+  document.getElementById('opt_az').textContent=t('alpha_sort');
+  document.getElementById('totalCount').textContent=allTheses.length;
+  document.getElementById('nursingCount').textContent=allTheses.filter(x=>x.department==='nursing').length;
+  document.getElementById('emergencyCount').textContent=allTheses.filter(x=>x.department==='emergency').length;
+  document.getElementById('midwiferyCount').textContent=allTheses.filter(x=>x.department==='midwifery').length;
+  document.getElementById('total_lbl').textContent=t('total_theses');
+  document.getElementById('nur_lbl').textContent=DL.nursing;
+  document.getElementById('emr_lbl').textContent=DL.emergency;
+  document.getElementById('mid_lbl').textContent=DL.midwifery;
+  document.getElementById('no_res_txt').textContent=t('no_theses');
+  document.body.classList.toggle('rtl',LANG==='ar');
+  document.documentElement.dir=LANG==='ar'?'rtl':'ltr';
+  document.documentElement.lang=LANG;
+  document.title=LANG==='ar'?'رسائل التخرج – المعهد الصحي العالي واسط':'Theses – HHI Wasit';
+  render();
+}
+renderPage();
+</script>
+</body>
+</html>
