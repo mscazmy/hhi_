@@ -15,7 +15,8 @@ function renderHeader(activePage) {
   document.getElementById('site-header').innerHTML = `
     <div class="header-inner">
       <a href="index.html" class="logo-wrap" style="text-decoration:none">
-        <div class="logo-icon">HHI</div>
+        <img src="images/logo.jpg" alt="HHI Wasit Logo"
+             style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;">
         <div class="logo-text">
           ${LANG === 'ar' ? 'المعهد الصحي العالي' : 'Higher Health Institution'}
           <span>${LANG === 'ar' ? 'واسط · العراق' : 'Wasit · Iraq'}</span>
@@ -51,7 +52,8 @@ function renderFooter() {
       <div class="footer-grid">
         <div class="footer-col">
           <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:1rem">
-            <div class="logo-icon" style="width:40px;height:40px;font-size:1rem">HHI</div>
+            <img src="images/logo.jpg" alt="HHI Wasit Logo"
+                 style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;">
             <div style="color:#fff;font-weight:700;line-height:1.2">
               ${LANG==='ar'?'المعهد الصحي العالي':'Higher Health Institution'}<br>
               <span style="font-size:.75rem;font-weight:400;color:#9ca3af">${LANG==='ar'?'واسط، العراق':'Wasit, Iraq'}</span>
